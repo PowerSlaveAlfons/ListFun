@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "cors": "^2.8.5",
+    "query-string": "^4.3.4",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",
     "react-datepicker": "^3.8.0",
