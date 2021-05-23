@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: ListFun API
+  version: '0.1'
+  description: >-
+    This API will allow my frontends to communicate with my backends. Should be
+    the same in every implementation, but I'm just testing right now anyway.
+  x-logo:
+    url: ''
+servers:
+  - url: 'https://localhost:5000'
+    description: ''
+paths:
+  /entries/getAll:
+    summary: Gets all entries
+    description: Gets every game or movie that has been completed along with the time.
+    get:
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/schemas/Entry'
+      operationId: getAllEntries
+      summary: gets all Entries
+      description: Gets every game or movie that has been completed along with the time.
+  /entries/add:
+    summary: Adds an entry
+    description: Adds an entry to an existing Game or Movie.
+    post:
+      tags: []
+      responses:
+        '200':
+          description: 200 OK.
+      operationId: addEntry
+      summary: Adds an Entry
+      description: Adds an entry to an existing Game or Movie.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entry'
+  /games/add:
+    summary: Adds a Game
+    description: Adds a game.
+    post:
+      tags: []
+      operationId: addGame
+      summary: Adds a Game
+      description: Adds a game.
+      responses:
+        '200':
+          description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+  /games/getAll:
+    summary: Gets all Games
+    description: Gets all the games.
+    get:
+      tags: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+          description: ''
+      operationId: getAllGames
+      summary: Gets All Games
+      description: Gets all the games.
+  /movies/add:
+    summary: Adds a Movie
+    description: Adds a movie.
+    post:
+      tags: []
+      responses:
+        '200':
+          description: ''
+      operationId: addMovie
+      summary: Adds a Movie.
+      description: Adds a Movie.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+  /movies/getAll:
+    summary: Gets all Movies
+    description: Gets all Movies.
+    get:
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/schemas/Game'
+      operationId: getAllMovies
+      summary: Gets all Movies
+      description: Gets all Movies.
+components:
+  schemas:
+    Game:
+      description: This is a specific game.
+      required:
+        - id
+        - name
+        - cover art
+        - platform
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        cover art:
+          type: string
+        platform:
+          type: string
+      type: object
+      example: ''
+    Entry:
+      description: >-
+        This is the general entry. Plan is to have Games, Movies, TV Shows,
+        whatever have an id, and every time I complete a game/movie I create an
+        entry in this table.
+      required:
+        - timestamp
+        - comments
+        - entryid
+      properties:
+        timestamp:
+          type: integer
+        comments:
+          type: string
+        entryid:
+          type: integer
+      type: object
+      example: ''
+    Movie:
+      description: This is a specific movie.
+      required:
+        - id
+        - name
+        - cover art
+        - release date
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        cover art:
+          type: string
+        release date:
+          type: string
+      type: object
+      example: ''
+  securitySchemes: {}
+  responses: {}
+  parameters: {}
+tags: []
+security: []

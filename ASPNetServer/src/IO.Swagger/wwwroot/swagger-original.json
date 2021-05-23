@@ -1,0 +1,188 @@
+{
+  "openapi" : "3.0.3",
+  "info" : {
+    "title" : "ListFun API",
+    "description" : "This API will allow my frontends to communicate with my backends. Should be the same in every implementation, but I'm just testing right now anyway.",
+    "version" : "0.1",
+    "x-logo" : {
+      "url" : ""
+    }
+  },
+  "servers" : [ {
+    "url" : "https://localhost:5000"
+  } ],
+  "paths" : {
+    "/entries/getAll" : {
+      "summary" : "Gets all entries",
+      "description" : "Gets every game or movie that has been completed along with the time.",
+      "get" : {
+        "tags" : [ ],
+        "summary" : "gets all Entries",
+        "description" : "Gets every game or movie that has been completed along with the time.",
+        "operationId" : "getAllEntries",
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/schemas/Entry"
+          }
+        }
+      }
+    },
+    "/entries/add" : {
+      "summary" : "Adds an entry",
+      "description" : "Adds an entry to an existing Game or Movie.",
+      "post" : {
+        "tags" : [ ],
+        "summary" : "Adds an Entry",
+        "description" : "Adds an entry to an existing Game or Movie.",
+        "operationId" : "addEntry",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Entry"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 OK."
+          }
+        }
+      }
+    },
+    "/games/add" : {
+      "summary" : "Adds a Game",
+      "description" : "Adds a game.",
+      "post" : {
+        "tags" : [ ],
+        "summary" : "Adds a Game",
+        "description" : "Adds a game.",
+        "operationId" : "addGame",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Media"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : { }
+        }
+      }
+    },
+    "/games/getAll" : {
+      "summary" : "Gets all Games",
+      "description" : "Gets all the games.",
+      "get" : {
+        "tags" : [ ],
+        "summary" : "Gets All Games",
+        "description" : "Gets all the games.",
+        "operationId" : "getAllGames",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Media"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies/add" : {
+      "summary" : "Adds a Movie",
+      "description" : "Adds a movie.",
+      "post" : {
+        "tags" : [ ],
+        "summary" : "Adds a Movie.",
+        "description" : "Adds a Movie.",
+        "operationId" : "addMovie",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Media"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : { }
+        }
+      }
+    },
+    "/movies/getAll" : {
+      "summary" : "Gets all Movies",
+      "description" : "Gets all Movies.",
+      "get" : {
+        "tags" : [ ],
+        "summary" : "Gets all Movies",
+        "description" : "Gets all Movies.",
+        "operationId" : "getAllMovies",
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/schemas/Media"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Media" : {
+        "required" : [ "id", "name", "picture", "release date" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "picture" : {
+            "type" : "string"
+          },
+          "platform" : {
+            "type" : "string"
+          },
+          "release date" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        },
+        "description" : "This is a specific Piece of media.",
+        "example" : ""
+      },
+      "Entry" : {
+        "required" : [ "comments", "entryid", "mediaid", "timestamp" ],
+        "type" : "object",
+        "properties" : {
+          "timestamp" : {
+            "type" : "integer"
+          },
+          "comments" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "mediaid" : {
+            "type" : "string"
+          }
+        },
+        "description" : "This is the general entry. Plan is to have Games, Movies, TV Shows, whatever have an id, and every time I complete a game/movie I create an entry in this table.",
+        "example" : ""
+      }
+    },
+    "responses" : { },
+    "parameters" : { },
+    "securitySchemes" : { }
+  }
+}
