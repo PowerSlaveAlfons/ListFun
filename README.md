@@ -1,2 +1,2 @@
 # ListFun
- Fun with Lists
+ Fun with lists
