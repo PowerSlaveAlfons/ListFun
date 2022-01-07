@@ -14,14 +14,14 @@ export default  withRouter(class MediaDetail extends React.Component {
 
 
     componentDidMount() {
-        axios.get('http://localhost:50352/media/' + this.props.match.params.id)
+        axios.get('https://localhost:5001/media/' + this.props.match.params.id)
             .then(res => {
                 const Media = res.data;
                 this.setState({ Media });
                 console.log(this.state.Media.map(Media => Media.name));
             }).catch(err => console.error(err))
 
-        axios.get('http://localhost:50352/entries/' + this.props.match.params.id)
+        axios.get('https://localhost:5001/entries/' + this.props.match.params.id)
             .then(res => {
                 const Entries = res.data;
                 this.setState({ Entries });

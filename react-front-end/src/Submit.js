@@ -19,7 +19,7 @@ export default function Submit() {
 
 		axios({
 			method: 'post',
-			url: 'http://localhost:50352/media/add',
+			url: 'https://localhost:5001/media/add',
 			data: Media
 		}).then(() => { history.push('/'); });
 	};
