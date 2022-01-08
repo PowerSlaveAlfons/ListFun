@@ -184,7 +184,7 @@ namespace IO.Swagger.Controllers
             if (Media.Count() < 1)
                 return StatusCode(400);
 
-            return new ObjectResult(Media);
+            return new ObjectResult(Media.FirstOrDefault());
         }
 
         /// <summary>

@@ -28,6 +28,8 @@ export default class MediaList extends React.Component {
     }
 
     render() {
+        if (!this.state.Media)
+            return(<div>Loading Media</div>);
         return (
             <div className='GameList'>
                 <ul>

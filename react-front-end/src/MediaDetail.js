@@ -2,45 +2,57 @@ import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import React from "react";
 import queryString from 'query-string';
-import { withRouter } from 'react-router-dom'; 
+import { withRouter } from 'react-router-dom';
 import { Media } from "react-bootstrap";
+import { from, toArray, zip, map, of, switchMap, concatAll } from "rxjs";
 
 
-export default  withRouter(class MediaDetail extends React.Component {
+export default withRouter(class MediaDetail extends React.Component {
     state = {
-        Media: [{}],
-        Entries: [{}]
+        Media: {}
     }
 
-
     componentDidMount() {
-        axios.get('https://localhost:5001/media/' + this.props.match.params.id)
-            .then(res => {
-                const Media = res.data;
-                this.setState({ Media });
-                console.log(this.state.Media.map(Media => Media.name));
-            }).catch(err => console.error(err))
+        from(axios.get('https://localhost:5001/media/' + this.props.match.params.id))
+            .pipe(
+                map(res => res.data),
+                switchMap(media => zip(of(media), this.getAllEntries(this.props.match.params.id))),
+                map(([media, Entries]) => {
+                    media["Entries"] = Entries;
+                    return media
+                })
+            ).subscribe({
+                next: Media => {
+                    this.setState({ Media });
+                },
+                error: err => console.error(err),
+                complete: () => console.info('feddish')
+            });
 
-        axios.get('https://localhost:5001/entries/' + this.props.match.params.id)
-            .then(res => {
-                const Entries = res.data;
-                this.setState({ Entries });
-            }).catch(err => console.error(err))
     }
 
     render() {
+        if (!this.state.Media.Entries)
+            return (<div>Loading Entries</div>);
         return (
             <div className='GameDetail'>
                 <ul>
-                    <li>{this.state.Media.map(Media => Media.name)}</li>
-                    <li>{this.state.Media.map(Media => Media.picture)}</li>
-                </ul>                
+                    <li>{this.state.Media.name}</li>
+                    <li>{this.state.Media.picture}</li>
+                </ul>
                 <ul>
-                {this.state.Entries.map(Entry => <li key={Entry.timestamp}>{Entry.name} at {Entry.timestamp}</li>)}
+                    {this.state.Media.Entries.map(Entry => <li key={Entry.timestamp}>{Entry.name} at {Entry.timestamp}</li>)}
                 </ul>
 
             </div>
         )
+    }
+
+    getAllEntries(id) {
+        return from(axios.get('https://localhost:5001/entries/' + id)).pipe(
+            map(res => res.data),
+            concatAll(),
+            toArray());
     }
 
 })
