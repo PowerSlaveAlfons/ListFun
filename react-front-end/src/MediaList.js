@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { concatAll, concatMap, map, zip, from, of, toArray, reduce } from 'rxjs';
+import { concatAll, concatMap, map, zip, from, of, toArray, reduce, catchError } from 'rxjs';
 
 
 export default class MediaList extends React.Component {
@@ -29,7 +29,7 @@ export default class MediaList extends React.Component {
 
     render() {
         if (!this.state.Media)
-            return(<div>Loading Media</div>);
+            return (<div>Loading Media</div>);
         return (
             <div className='GameList'>
                 <ul>
@@ -46,7 +46,12 @@ export default class MediaList extends React.Component {
             map(res => res.data),
             concatAll(),
             map(entry => entry.timestamp),
-            reduce((last, Entry) => Entry > last ? Entry : last, "0001-01-01T00:00:00"))
+            reduce((last, Entry) => Entry > last ? Entry : last, "0001-01-01T00:00:00"),
+            catchError(Error => {
+                return of("No entries found.")
+            })
+        )
+
     }
 }
 

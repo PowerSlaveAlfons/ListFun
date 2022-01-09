@@ -101,7 +101,7 @@ namespace IO.Swagger.Controllers
                           select e;
 
             if (entries.Count() < 1)
-                return StatusCode(400);
+                return StatusCode(404);
 
             return new ObjectResult(entries);
         }

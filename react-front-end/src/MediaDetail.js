@@ -1,10 +1,8 @@
-import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import React from "react";
-import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
-import { Media } from "react-bootstrap";
-import { from, toArray, zip, map, of, switchMap, concatAll } from "rxjs";
+import { from, toArray, zip, map, of, switchMap, concatAll, catchError } from "rxjs";
+import { Link } from 'react-router-dom';
 
 
 export default withRouter(class MediaDetail extends React.Component {
@@ -36,6 +34,9 @@ export default withRouter(class MediaDetail extends React.Component {
             return (<div>Loading Entries</div>);
         return (
             <div className='GameDetail'>
+                <div>
+                        <Link to={`/addEntry/${this.state.Media.id}`}>Add new Entry for this Media</Link>
+                </div>
                 <ul>
                     <li>{this.state.Media.name}</li>
                     <li>{this.state.Media.picture}</li>
@@ -52,7 +53,10 @@ export default withRouter(class MediaDetail extends React.Component {
         return from(axios.get('https://localhost:5001/entries/' + id)).pipe(
             map(res => res.data),
             concatAll(),
-            toArray());
+            toArray(),
+            catchError(Error => {
+                return of([]);
+            }));
     }
 
 })
